@@ -1,0 +1,51 @@
+{
+  "manifest_version": "0.3",
+  "name": "Dossierfy",
+  "display_name": "Dossierfy",
+  "version": "1.0.0",
+  "description": "Dossierfy connects Claude to the Dossierfy regulatory knowledge graph, enabling AI-powered EMA variation classification under EC Regulation 1234/2008. Classifies post-authorisation changes (Type IA, IAIN, IB, II) with full condition evaluation and documentation requirements — directly inside Claude Desktop.",
+  "homepage": "https://www.skaitech.ai/",
+  "privacy_policies": ["https://www.skaitech.ai/"],
+  "support": "https://www.skaitech.ai/",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "skAi",
+    "url": "https://www.skaitech.ai/",
+    "email": "support@skaitech.ai"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": {
+        "API_KEY": "${user_config.api_key}", 
+        "API_URL": "${user_config.api_url}"
+      }
+    }
+  },
+  "user_config": {
+    "api_key": {
+      "type": "string",
+      "title": "API Key",
+      "description": "Tu API key para el servicio Dossierfy",
+      "sensitive": true,
+      "required": true
+    },
+    "api_url": {
+      "type": "string",
+      "title": "URL del servidor",
+      "description": "URL del servidor MCP de Dossierfy (no cambiar salvo indicación)",
+      "default": "https://su1r02w48a.execute-api.eu-west-1.amazonaws.com/v1/graphApi/mcp/",
+      "required": false
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin", "win32"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "dossierfy-mcp-proxy",
+  "version": "1.0.0",
+  "description": "Claude Desktop MCP proxy for Dossierfy Graph Service",
+  "type": "module",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "build": "npm install --omit=dev && npx --yes @anthropic-ai/mcpb pack . dossierfy.mcpb"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  }
+}
