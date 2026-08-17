@@ -53,6 +53,23 @@ Confirma la instalación. Si todo es correcto verás la extensión activa en **S
 
 ---
 
+## Instalación para usuarios de Claude Code
+
+Si usas [Claude Code](https://docs.claude.com/en/docs/claude-code) (el agente en línea de comandos) en lugar de Claude Desktop, puedes instalar Dossierfy como plugin a través de su marketplace, como vía alternativa a la extensión descrita arriba.
+
+Ejecuta estos comandos dentro de Claude Code:
+
+```
+/plugin marketplace add EstebanSkai/Dossierfy-Claude-Plugin
+/plugin install dossierfy@dossierfy
+```
+
+Claude Code te pedirá la misma **API Key** (campo sensible, almacenado de forma segura) y, opcionalmente, la URL del servidor, igual que en la versión de Claude Desktop.
+
+> **Nota para mantenedores**: antes de hacer push de cambios en el marketplace, valida localmente con `claude plugin validate .` (o `claude plugin validate . --strict` para una comprobación más estricta).
+
+---
+
 ## Guía para desarrolladores
 
 ### Build local
@@ -115,6 +132,11 @@ Para adaptar esta extensión a un servicio diferente, modifica estos campos:
 | `scripts/build.sh` | Nombre del archivo de salida | Nombre del artefacto de salida |
 | `server/index.js` | `PRODUCTION_URL` | URL de producción por defecto |
 | `server/index.js` | `SERVER_INFO` / `CLIENT_INFO` | Nombre/versión reportados en la negociación MCP |
+| `.claude-plugin/marketplace.json` | `name`, `plugins[0].name` | Identificador del marketplace y del plugin |
+| `.claude-plugin/marketplace.json` | `plugins[0].description`, `plugins[0].author.name` | Descripción del plugin y tu organización |
+| `.claude-plugin/plugin.json` | `name`, `description`, `author.name` | Identificador, descripción y organización del plugin |
+| `.claude-plugin/plugin.json` | `userConfig.api_url.default` | URL del servidor remoto por defecto |
+| `.mcp.json` | *(sin cambios habituales)* | Usa `${user_config.*}`; solo edítalo si cambian los nombres de las variables de entorno |
 
 El `server/index.js` es genérico por diseño: descubre las tools del servidor remoto en tiempo de ejecución. No necesitas modificarlo salvo que quieras cambiar la lógica de proxy.
 

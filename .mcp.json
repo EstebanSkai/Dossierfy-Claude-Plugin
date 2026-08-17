@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "dossierfy": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/server/index.js"],
+      "env": {
+        "API_KEY": "${user_config.api_key}",
+        "API_URL": "${user_config.api_url}"
+      }
+    }
+  }
+}

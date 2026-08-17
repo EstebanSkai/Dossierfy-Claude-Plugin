@@ -1,0 +1,25 @@
+{
+  "name": "dossierfy",
+  "owner": {
+    "name": "skAi",
+    "email": "support@skaitech.ai",
+    "url": "https://www.skaitech.ai/"
+  },
+  "description": "Marketplace oficial de skAi: plugin Dossierfy para clasificación de variaciones EMA post-autorización sobre el grafo de conocimiento regulatorio.",
+  "plugins": [
+    {
+      "name": "dossierfy",
+      "source": "./",
+      "description": "Conecta Claude con el grafo de conocimiento regulatorio Dossierfy vía MCP para clasificar variaciones EMA post-autorización (Reglamento CE 1234/2008).",
+      "version": "1.0.0",
+      "author": {
+        "name": "skAi",
+        "email": "support@skaitech.ai",
+        "url": "https://www.skaitech.ai/"
+      },
+      "homepage": "https://www.skaitech.ai/",
+      "license": "Apache-2.0",
+      "keywords": ["ema", "regulatory", "pharma", "mcp", "neo4j"]
+    }
+  ]
+}

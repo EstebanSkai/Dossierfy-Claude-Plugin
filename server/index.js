@@ -30,6 +30,8 @@ const PRODUCTION_URL =
 
 const CLIENT_INFO = { name: "dossierfy-proxy-client", version: "1.0.0" };
 
+const REQUEST_TIMEOUT_MSEC = 300_000; // 5 minutes — matches SCINR_BACKEND client timeout
+
 // ---------------------------------------------------------------------------
 // Configuration — read from env vars
 // ---------------------------------------------------------------------------
@@ -71,7 +73,7 @@ async function main() {
   process.stderr.write(`[dossierfy] Connecting to remote server: ${API_URL}\n`);
 
   try {
-    await remoteClient.connect(remoteTransport);
+    await remoteClient.connect(remoteTransport, { timeout: REQUEST_TIMEOUT_MSEC });
     process.stderr.write("[dossierfy] Remote connection established.\n");
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
@@ -113,7 +115,9 @@ async function main() {
   // --- tools/list: proxy to remote -----------------------------------------
   localServer.setRequestHandler(ListToolsRequestSchema, async (_request) => {
     process.stderr.write("[dossierfy] tools/list requested\n");
-    const result = await remoteClient.listTools();
+    const result = await remoteClient.listTools(undefined, {
+      timeout: REQUEST_TIMEOUT_MSEC,
+    });
     process.stderr.write(
       `[dossierfy] tools/list returned ${result.tools.length} tool(s)\n`
     );
@@ -124,14 +128,20 @@ async function main() {
   localServer.setRequestHandler(CallToolRequestSchema, async (request) => {
     const { name, arguments: args } = request.params;
     process.stderr.write(`[dossierfy] tools/call → ${name}\n`);
-    const result = await remoteClient.callTool({ name, arguments: args ?? {} });
+    const result = await remoteClient.callTool(
+      { name, arguments: args ?? {} },
+      undefined,
+      { timeout: REQUEST_TIMEOUT_MSEC }
+    );
     return result;
   });
 
   // --- prompts/list: proxy to remote ---------------------------------------
   localServer.setRequestHandler(ListPromptsRequestSchema, async (_request) => {
     process.stderr.write("[dossierfy] prompts/list requested\n");
-    const result = await remoteClient.listPrompts();
+    const result = await remoteClient.listPrompts(undefined, {
+      timeout: REQUEST_TIMEOUT_MSEC,
+    });
     process.stderr.write(
       `[dossierfy] prompts/list returned ${result.prompts.length} prompt(s)\n`
     );
@@ -142,7 +152,10 @@ async function main() {
   localServer.setRequestHandler(GetPromptRequestSchema, async (request) => {
     const { name, arguments: args } = request.params;
     process.stderr.write(`[dossierfy] prompts/get → ${name}\n`);
-    const result = await remoteClient.getPrompt({ name, arguments: args ?? {} });
+    const result = await remoteClient.getPrompt(
+      { name, arguments: args ?? {} },
+      { timeout: REQUEST_TIMEOUT_MSEC }
+    );
     return result;
   });
 
